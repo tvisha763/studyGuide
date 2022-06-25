@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+</head>
+<body>
+    <div class="container">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+        <form action="{% url 'signup' %}" method="POST">
+            {% csrf_token %}
+                <input type="text" placeholder="username" name="username" class="form-control" id="inputUsername">
+                <label for="inputUsername">Username</label>
+                        <input type="email" name="email" class="form-control" id="inputEmail" placeholder="email">
+                        <label for="inputEmail">Email</label>
+                        <input type="tel" name="phone" class="form-control" id="inputPhone" placeholder="phone">
+                        <label for="inputPhone">Phone</label>
+                        <input type="password" name="password" class="form-control" id="inputPassword" placeholder="password">
+                        <label for="inputPassword">Password</label>
+                        <input type="password" name="confirmPass" class="form-control" id="inputConfirmPassword" placeholder="password">
+                        <label for="inputConfirmPassword">Confirm Password</label>
+                        <button type="submit" >Sign Up</button>
+        </form>
+    </div>
+        <span>Already have an account? Log in 
+        <a href="{% url 'login' %}">here</a></span>
+    </div>
+    </div>
+</body>
+</html>

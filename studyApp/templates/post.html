@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Post</title>
+</head>
+<body>
+    <h1>Study Guide</h1>
+    <h2>Post</h2>
+    <form action="" enctype="multipart/form-data">
+        <select name="postType" class="postType">
+            <option value="None">-- select --</option>
+            <option value="1">post sale</option>
+            <option value="2">post practice</option>
+            <option value="3">post tutoring service</option>
+        </select>
+        <div class="sale">
+            <input type="file">
+            <input type="text" name="materialName" placeholder="material">
+            $<input type="number" name="price" placeholder="price">
+            <textarea name="description" placeholder="description"></textarea>
+            <button type="submit">submit</button>
+        </div>
+        <div class="practice">
+            <input type="text" name="subject" placeholder="subject">
+            <input type="file">
+            <textarea name="description" placeholder="description"></textarea>
+            <button type="submit">submit</button>
+        </div>
+        <div class="tutoring">
+            <input type="text" name="fname" placeholder="Firstname">
+            <input type="text" name="lname" placeholder="Lastname">
+            <input type="text" name="subjects" placeholder="subjects">
+            <textarea name="description" placeholder="Describe your qualifications"></textarea>
+            <button type="submit">submit</button>
+        </div>
+    </form>
+    <script type="text/javascript" src="{% static 'scripts/script.js' %}"></script>
+</body>
+</html>
