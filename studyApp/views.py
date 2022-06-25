@@ -14,7 +14,9 @@ from django.conf import settings
 from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
 from django.template.loader import render_to_string
-from .models import User
+from .models import User, Post
+from django.views.decorators.csrf import ensure_csrf_cookie
+
 
 # Create your views here.
 
@@ -122,4 +124,60 @@ def dashboard(request):
     return render(request, 'dashboard.html')
 
 def post(request):
-    return render(request, 'post.html')
+    
+        return render(request, 'post.html')
+
+def createPost(request):
+    if not request.session.get('logged_in'):
+        return redirect('login')
+    if request.method == "POST":
+        user = User.objects.get(username=request.session["username"])
+        postType = request.POST.get('postType')
+        materialName = request.POST.get('materialName')
+        image = request.FILES.get('image')
+        price = request.POST.get('price')
+        pracFile = request.FILES.get('pracFile')
+        subjectPrac = request.POST.get('subject')
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
+        subjectsTutor = request.POST.get('subjects')
+        descriptionSale = request.POST.get('descriptionSale')
+        descriptionPrac = request.POST.get('descriptionPrac')
+        descriptionTutor = request.POST.get('descriptionTutor')
+
+        print(price)
+        
+        if postType == "1":
+            print("works")
+            inputs = [image, materialName, postType, price, descriptionSale]
+            for inp in inputs:
+                if inp == '' or inp == None:
+                    messages.error(request, "Please fill all the boxes.")
+                    return redirect('post')
+
+            post = Post(image=image, materialName=materialName, postType=postType, price=price, description=descriptionSale, user=user)
+            post.save()
+            return redirect('dashboard')
+        elif postType == "2":
+            inputs = [pracFile, subjectPrac, postType, descriptionPrac]
+            for inp in inputs:
+                if inp == '' or inp == None:
+                    messages.error(request, "Please fill all the boxes.")
+                    return redirect('post')
+            post = Post(pracFile=pracFile, subjectPrac=subjectPrac, postType=int(postType), description=descriptionPrac, user=user)
+            post.save()
+            return redirect('dashboard')
+        elif postType == "3":
+            inputs = [fname, lname, subjectsTutor, postType, descriptionTutor]
+            for inp in inputs:
+                if inp == '' or inp == None:
+                    messages.error(request, "Please fill all the boxes.")
+                    return redirect('post')
+            post = Post(fname=fname, lname=lname, subjectsTutor=subjectsTutor, postType=int(postType), description=descriptionTutor, user=user)
+            post.save()
+            return redirect('dashboard')
+        else:
+            messages.error(request, "Please select a post type")
+            return render(request, 'post.html')
+    else:
+        return render(request, 'post.html')

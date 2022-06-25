@@ -11,7 +11,11 @@
 <body>
     <h1>Study Guide</h1>
     <h2>Post</h2>
-    <form action="" enctype="multipart/form-data">
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
+    <form action="{% url 'createPost' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
         <select name="postType" class="postType">
             <option value="None">-- select --</option>
             <option value="1">post sale</option>
@@ -19,25 +23,23 @@
             <option value="3">post tutoring service</option>
         </select>
         <div class="sale">
-            <input type="file">
+            <input name="image" type="file">
             <input type="text" name="materialName" placeholder="material">
             $<input type="number" name="price" placeholder="price">
-            <textarea name="description" placeholder="description"></textarea>
-            <button type="submit">submit</button>
+            <textarea name="descriptionSale" placeholder="description"></textarea>
         </div>
         <div class="practice">
             <input type="text" name="subject" placeholder="subject">
-            <input type="file">
-            <textarea name="description" placeholder="description"></textarea>
-            <button type="submit">submit</button>
+            <input name="pracFile" type="file">
+            <textarea name="descriptionPrac" placeholder="description"></textarea>
         </div>
         <div class="tutoring">
             <input type="text" name="fname" placeholder="Firstname">
             <input type="text" name="lname" placeholder="Lastname">
             <input type="text" name="subjects" placeholder="subjects">
-            <textarea name="description" placeholder="Describe your qualifications"></textarea>
-            <button type="submit">submit</button>
+            <textarea name="descriptionTutor" placeholder="Describe your qualifications"></textarea>
         </div>
+        <button type="submit">submit</button>
     </form>
     <script type="text/javascript" src="{% static 'scripts/script.js' %}"></script>
 </body>
