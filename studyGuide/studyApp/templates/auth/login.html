@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <div class="container">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+        <form action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-floating mb-3">
+                <input type="email" name="email" class="form-control" id="inputEmail" placeholder="email">
+                <label for="inputEmail">Email</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" name="password" class="form-control" id="inputLoginPassword" placeholder="password">
+                <label for="inputLoginPassword">Password</label>
+                <div>
+                    <i class="fa-solid fa-eye-slash pwd-eye" style="display: none;" data-state="0"></i>
+                    <i class="fa-solid fa-eye pwd-eye" data-state="1"></i>
+                </div>
+            </div>
+            <div class="d-flex align-items-center justify-content-center mt-4 mb-0">
+                <input class="btn btn-dark" type="submit" value="Login"></input>
+            </div>
+        </form>
+    </div>
+    <div class="card-footer text-center py-3">
+        <span class="small">Don't have an account? Sign up 
+        <a href="{% url 'signup' %}">here</a></span>
+    </div>
+    </div>
+                       
+</body>
+</html>
