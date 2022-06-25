@@ -1,3 +1,90 @@
-body{
-    background: url("/static/assets/download.jpg");
+div {}
+@import url("https://fonts.googleapis.com/css?family=Lato:400,700");
+body {
+  background-color: #2f2f2f;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+
+  font-family: "Times New Roman", Times, serif;
+  color: #bdbea9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+form {
+  width: 350px;
+  position: relative;
+}
+
+.email{
+    color: #8db83b;
+}
+.pass{
+    color: #8db83b;
+}
+.submit {
+    border: none;
+    cursor: pointer;
+    display: block;
+    padding: 0.7rem 2rem;
+    text-align: center;
+    background-color: #04724D;
+    color: #bdbea9;
+    border-radius: 40px;
+    box-shadow: 10px 10px 5px #aaaaaa
+    font: 500px;
+  }
+
+
+a:link {
+    color: #8db83b;
+  }
+  
+a:visited {
+    color: #bdbea9;
+  }
+  
+a:hover {
+    color: #bdbea9;
+    text-decoration: underline;
+  }
+
+a:active {
+    color: #8db83b;
+    text-decoration: underline;
+  }
+
+span.sign{
+    text-align: center;
+}
+.container{
+    align-content: center;
+}
+
+h1{
+    padding-bottom: 2rem;
+    font-weight: bold;
+    font-family: "Times New Roman", Times, serif;
+  }
+  
+div.card {
+    text-align: center;
+    background: #04724D;
+    height: auto;
+}
+.submit {
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    -ms-transform: translate(-70%, 0);
+    transform: translate(-70%, 0);
 }

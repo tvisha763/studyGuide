@@ -14,17 +14,24 @@
             {{ message }}
         {% endfor %}
         <form action="{% url 'login' %}" method="POST">
-            {% csrf_token %}
-                <input type="email" name="email" class="form-control" id="inputEmail" placeholder="email">
-                <label for="inputEmail">Email</label>
-                <input type="password" name="password" class="form-control" id="inputLoginPassword" placeholder="password">
-                <label for="inputLoginPassword">Password</label>
-                <button type="submit">login</button>
-        </form>
-    </div>
-        <span>Don't have an account? Sign up 
-        <a href="{% url 'signup' %}">here</a></span>
-    </div>
-                       
+            {% csrf_token %}                                       
+                                                
+                        <form id="submitForm" action="/login" method="post" data-parsley-validate="" data-parsley-errors-messages-disabled="true" novalidate="" _lpchecked="1"><input type="hidden" name="_csrf" value="7635eb83-1f95-4b32-8788-abec2724a9a4">
+                            <div class="card" style="width: 18rem;">
+                                <div class="card-body">
+                                  <h1 class="card-title">Login</h1>
+                                  <label class= 'email' for="inputEmail"> Email </label><br>
+                                  <input type="email" name="email" class="form-control" id="inputEmail" placeholder="email"><br>
+                                  <label class= 'pass' for="inputLoginPassword">Password</label><br>
+                                  <input type="password" name="password" class="form-control" id="inputLoginPassword" placeholder="password"><br><br>
+                                  <button class="submit" type="submit"><b>Login</b></button><br><br>
+                                    </div>
+                                </form>
+
+                                    <span class = 'sign'>Don't have an account? Sign up</span>
+                                <a href="{% url 'signup' %}" class="btn btn-primary">here</a>
+                                </div>
+                              </div>
+
 </body>
 </html>
