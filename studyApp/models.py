@@ -17,22 +17,22 @@ class User(models.Model):
 
 class Post(models.Model):
     POST_CHOICES = [
-        (1, 'None'),
-        (2, 'Sale'),
-        (3, 'Practice'),
-        (4, 'Tutoring')
+        (1, 'Sale'),
+        (2, 'Practice'),
+        (3, 'Tutoring')
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
     postType = models.IntegerField(default=1, choices=POST_CHOICES)
     materialName = models.CharField(max_length=100, unique=False, default='')
-    image = models.ImageField(upload_to="saleImgs", blank=True)
+    image = models.ImageField(upload_to="media/saleImgs", blank=True)
     price = models.IntegerField(blank=True, null=True)
-    pracFile = models.FileField(upload_to="practiceFiles", blank=True)
+    pracFile = models.FileField(upload_to="staticpracticeFiles", blank=True)
     subjectPrac = models.CharField(max_length=100, blank=True)
     fname =  models.CharField(max_length=100, blank=True, default='')
     lname =  models.CharField(max_length=100, blank=True, default='')
     subjectsTutor = models.CharField(max_length=1000, blank=True)
+    rate = models.IntegerField(default=0, blank=True)
     description = models.CharField(max_length=500, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     

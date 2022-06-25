@@ -141,6 +141,7 @@ def createPost(request):
         fname = request.POST.get('fname')
         lname = request.POST.get('lname')
         subjectsTutor = request.POST.get('subjects')
+        rate = request.POST.get('rate')
         descriptionSale = request.POST.get('descriptionSale')
         descriptionPrac = request.POST.get('descriptionPrac')
         descriptionTutor = request.POST.get('descriptionTutor')
@@ -173,7 +174,7 @@ def createPost(request):
                 if inp == '' or inp == None:
                     messages.error(request, "Please fill all the boxes.")
                     return redirect('post')
-            post = Post(fname=fname, lname=lname, subjectsTutor=subjectsTutor, postType=int(postType), description=descriptionTutor, user=user)
+            post = Post(fname=fname, lname=lname, subjectsTutor=subjectsTutor, postType=int(postType), description=descriptionTutor, user=user, rate=rate)
             post.save()
             return redirect('dashboard')
         else:
@@ -181,3 +182,22 @@ def createPost(request):
             return render(request, 'post.html')
     else:
         return render(request, 'post.html')
+
+
+def salePage(request):
+        if not request.session.get('logged_in'):
+            return redirect('/login')
+        if request.method == "GET":
+            info = Post.objects.filter(postType=1)
+            print (info[0].image.url)
+            context = {'details': info}
+            return render(request, 'salePage.html', context)
+        
+def materialSearch(request):
+    if not request.session.get('logged_in'):
+        return redirect('/login')
+    if request.method == "GET":
+        Searched = request.GET.get("materialFilter")
+        info = Post.objects.filter(materialName__contains=Searched)    
+        context={'details' : info.filter(postType=1)}
+        return render(request, 'salePage.html', context)
