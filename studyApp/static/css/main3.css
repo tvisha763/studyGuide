@@ -1,0 +1,103 @@
+/* GLOBAL STYLES
+-------------------------------------------------- */
+/* Padding below the footer and lighter body text */
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+
+body {
+  padding-top: 3rem;
+  color: #5a5a5a;
+  background-color: #BDBEA9;
+  overflow:auto;
+  padding-bottom:150px
+}
+
+.navbar-custom{
+    background-color: #2F2F2F;
+}
+
+.card{
+    display: inline-block;
+    margin: 20px;
+}
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.container{
+    margin: 30px;
+}
+
+
+.filter {
+    height: 350px;
+    background-image: url('../assets/books.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    color: white;
+  }
+  .filter h3 {
+    font-family: 'Permanent Marker', cursive;
+  }
+
+  .jumbotron-sale {
+    height: 350px;
+    background-image: url('../assets/books.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    color: #5a7958;
+    padding: 50px;
+  }
+  .jumbotron-sale h2 {
+    font-size: 80px;;
+    font-family: sans-serif;
+    margin: 50px;
+  }
+
+  .jumbotron-sale form {
+    max-width: 350px;
+  }
+
+  .jumbotron-prac {
+    height: 350px;
+    background-image: url('../assets/test.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    color: #5a7958;
+    padding: 50px;
+  }
+  .jumbotron-prac h2 {
+    font-size: 80px;;
+    font-family: sans-serif;
+    margin: 50px;
+  }
+
+  .jumbotron-prac form {
+    max-width: 350px;
+  }
+
+  .jumbotron-tutor {
+    height: 450px;
+    background-image: url('../assets/homework.jpeg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    color: #5a7958;
+    padding: 20px;
+  }
+  .jumbotron-tutor h2 {
+    font-size: 80px;;
+    font-family: sans-serif;
+    margin: 50px;
+  }
+
+  .jumbotron-tutor form {
+    max-width: 350px;
+  }

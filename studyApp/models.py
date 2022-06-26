@@ -24,10 +24,10 @@ class Post(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
     postType = models.IntegerField(default=1, choices=POST_CHOICES)
-    materialName = models.CharField(max_length=100, unique=False, default='')
-    image = models.ImageField(upload_to="media/saleImgs", blank=True)
+    materialName = models.CharField(max_length=100, unique=False, blank=True, default='')
+    image = models.ImageField(upload_to="uploads", blank=True, null=True)
     price = models.IntegerField(blank=True, null=True)
-    pracFile = models.FileField(upload_to="staticpracticeFiles", blank=True)
+    pracFile = models.FileField(upload_to="uploads", blank=True)
     subjectPrac = models.CharField(max_length=100, blank=True)
     fname =  models.CharField(max_length=100, blank=True, default='')
     lname =  models.CharField(max_length=100, blank=True, default='')
@@ -38,3 +38,11 @@ class Post(models.Model):
     
     def __str__(self):
         return f'{self.postType} - {self.user.username}'
+
+class Like(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="likes")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="post_likes")
+    date_posted = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.post} - {self.user}'

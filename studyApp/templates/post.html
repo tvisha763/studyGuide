@@ -1,47 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load static %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <title>Post</title>
-</head>
-<body>
-    <h1>Study Guide</h1>
-    <h2>Post</h2>
-    {% for message in messages %}
-        {{ message }}
-    {% endfor %}
+{% extends 'auth/main.html' %}
+
+{% block title %}Post{% endblock %}
+{% block content %}
+{% for message in messages %}
+<div class="alert mt-3 alert-warning alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+<center>
+<div class="card formCard" style="min-width: 500px;">
+    <h5 class="card-header">Post</h5>
+
+<div class="card-body card-center">
     <form action="{% url 'createPost' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <select name="postType" class="postType">
-            <option value="None">-- select --</option>
-            <option value="1">post sale</option>
-            <option value="2">post practice</option>
-            <option value="3">post tutoring service</option>
-        </select>
-        <div class="sale">
-            <input name="image" type="file">
-            <input type="text" name="materialName" placeholder="material">
-            $<input type="number" name="price" placeholder="price">
-            <textarea name="descriptionSale" placeholder="description"></textarea>
-        </div>
-        <div class="practice">
-            <input type="text" name="subject" placeholder="subject">
-            <input name="pracFile" type="file">
-            <textarea name="descriptionPrac" placeholder="description"></textarea>
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">Post Type</label>
+            <select class="form-select postType" id="inputGroupSelect01" name="postType">
+              <option selected>Choose...</option>
+              <option value="1">post sale</option>
+              <option value="2">post practice</option>
+              <option value="3">post tutoring service</option>
+            </select>
+          </div>
+          <div class="sale">
+            <h6>Sale</h6>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupFile01">Upload Image</label>
+                <input type="file" class="form-control" name="image" id="inputGroupFile01">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">Material</span>
+                <input type="text" class="form-control" name="materialName">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">$</span>
+                <input type="text" class="form-control" name="price" placeholder="USD">
+            </div>
+            <div class="input-group">
+                <span class="input-group-text">Description</span>
+                <textarea class="form-control" name="descriptionSale"></textarea>
+              </div>
+          </div>
+          <div class="practice">
+            <h6>Practice</h6>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">Subject</span>
+                <input type="text" class="form-control" name="subjectPrac">
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupFile01">Upload PDF</label>
+                <input type="file" class="form-control" name="pracFile" id="inputGroupFile01">
+            </div>
+            <div class="input-group">
+                <span class="input-group-text">Description</span>
+                <textarea class="form-control" name="descriptionPrac"></textarea>
+            </div>
         </div>
         <div class="tutoring">
-            <input type="text" name="fname" placeholder="Firstname">
-            <input type="text" name="lname" placeholder="Lastname">
-            <input type="text" name="subjects" placeholder="subjects">
-            $<input type="number" name="rate" placeholder="hourly rate">
-            <textarea name="descriptionTutor" placeholder="Describe your qualifications"></textarea>
+            <h6>Tutoring Service</h6>
+            <div class="input-group" style="margin-bottom: 15px;">
+                <span class="input-group-text">First and last name</span>
+                <input type="text" name="fname" class="form-control">
+                <input type="text" name="lname" class="form-control">
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">Subjects</span>
+                <input type="text" class="form-control" name="subjectsTutor">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">Rate</span>
+                <input type="number" class="form-control" name="rate">
+            </div>
+            <div class="input-group">
+                <span class="input-group-text">Qualifications</span>
+                <textarea class="form-control" name="descriptionTutor"></textarea>
+            </div>
         </div>
-        <button type="submit">submit</button>
+        <div class="d-flex justify-content-center">
+            <input style="margin: 15px;" type="submit" value="Post" class="btn btn-dark">
+        </div>
     </form>
-    <script type="text/javascript" src="{% static 'scripts/script.js' %}"></script>
-</body>
-</html>
+   
+   
+</div>
+</div>
+</center>
+
+{% endblock %}

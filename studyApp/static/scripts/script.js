@@ -23,6 +23,8 @@ $(document).ready(function(){
             $('.tutoring').hide()
         }
         
+        
     });
 
+    
 });

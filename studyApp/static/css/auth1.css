@@ -1,0 +1,19 @@
+body {
+    /* fallback for old browsers */
+    background: #56876D;
+    
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, #8DB38B, #04724D);
+    
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right bottom, #81c07f, #04724D)
+    }
+
+label{
+    color: #04724D;
+}
+
+.card {
+    margin-top: -20px;
+    margin-bottom: 20px;
+}

@@ -14,7 +14,7 @@ from django.conf import settings
 from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
 from django.template.loader import render_to_string
-from .models import User, Post
+from .models import User, Post, Like
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 
@@ -121,7 +121,23 @@ def logout(request):
 
 
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    if not request.session.get('logged_in'):
+        return redirect('login')
+    if request.method == "GET":
+        user=request.session.get('username')
+        sales = Post.objects.filter(user__username=user, postType=1)     
+        practice = Post.objects.filter(user__username=user, postType=2)  
+        tutor = Post.objects.filter(user__username=user, postType=3) 
+        context={
+            'sales' : sales,
+            'practice' : practice,
+            'tutoringService' : tutor,
+            'len' : len(sales)
+        }
+    
+
+    return render(request, 'dashboard.html', context)
+
 
 def post(request):
     
@@ -137,32 +153,35 @@ def createPost(request):
         image = request.FILES.get('image')
         price = request.POST.get('price')
         pracFile = request.FILES.get('pracFile')
-        subjectPrac = request.POST.get('subject')
+        subjectPrac = request.POST.get('subjectPrac')
         fname = request.POST.get('fname')
         lname = request.POST.get('lname')
-        subjectsTutor = request.POST.get('subjects')
+        subjectsTutor = request.POST.get('subjectsTutor')
         rate = request.POST.get('rate')
         descriptionSale = request.POST.get('descriptionSale')
         descriptionPrac = request.POST.get('descriptionPrac')
         descriptionTutor = request.POST.get('descriptionTutor')
-
-        print(price)
-        
+        print(postType)
+        print(image)
+        print(fname)
+        print(subjectsTutor)
+        print(pracFile)
         if postType == "1":
-            print("works")
             inputs = [image, materialName, postType, price, descriptionSale]
             for inp in inputs:
                 if inp == '' or inp == None:
+                    print(inputs.index(inp))
                     messages.error(request, "Please fill all the boxes.")
                     return redirect('post')
-
+            print(image, materialName)
             post = Post(image=image, materialName=materialName, postType=postType, price=price, description=descriptionSale, user=user)
             post.save()
             return redirect('dashboard')
         elif postType == "2":
-            inputs = [pracFile, subjectPrac, postType, descriptionPrac]
-            for inp in inputs:
+            inputs2 = [pracFile, subjectPrac, postType, descriptionPrac]
+            for inp in inputs2:
                 if inp == '' or inp == None:
+                    print(inputs2.index(inp))
                     messages.error(request, "Please fill all the boxes.")
                     return redirect('post')
             post = Post(pracFile=pracFile, subjectPrac=subjectPrac, postType=int(postType), description=descriptionPrac, user=user)
@@ -171,7 +190,10 @@ def createPost(request):
         elif postType == "3":
             inputs = [fname, lname, subjectsTutor, postType, descriptionTutor]
             for inp in inputs:
+                
                 if inp == '' or inp == None:
+                    print(inputs.index(inp))
+                    print(subjectsTutor)
                     messages.error(request, "Please fill all the boxes.")
                     return redirect('post')
             post = Post(fname=fname, lname=lname, subjectsTutor=subjectsTutor, postType=int(postType), description=descriptionTutor, user=user, rate=rate)
@@ -180,16 +202,16 @@ def createPost(request):
         else:
             messages.error(request, "Please select a post type")
             return render(request, 'post.html')
+            
     else:
         return render(request, 'post.html')
-
+    
 
 def salePage(request):
         if not request.session.get('logged_in'):
             return redirect('/login')
         if request.method == "GET":
             info = Post.objects.filter(postType=1)
-            print (info[0].image.url)
             context = {'details': info}
             return render(request, 'salePage.html', context)
         
@@ -201,3 +223,70 @@ def materialSearch(request):
         info = Post.objects.filter(materialName__contains=Searched)    
         context={'details' : info.filter(postType=1)}
         return render(request, 'salePage.html', context)
+
+def pracPage(request):
+        if not request.session.get('logged_in'):
+            return redirect('/login')
+        if request.method == "GET":
+            info = Post.objects.filter(postType=2)
+            context = {'details': info}
+            return render(request, 'pracPage.html', context)
+
+def subjectSearch(request):
+    if not request.session.get('logged_in'):
+        return redirect('/login')
+    if request.method == "GET":
+        Searched = request.GET.get("subjectFilter")
+        info = Post.objects.filter(subjectPrac__contains=Searched)    
+        context={'details' : info.filter(postType=2)}
+        return render(request, 'pracPage.html', context)
+
+def tutorPage(request):
+        if not request.session.get('logged_in'):
+            return redirect('/login')
+        if request.method == "GET":
+            info = Post.objects.filter(postType=3)
+            context = {'details': info}
+            return render(request, 'tutorPage.html', context)
+
+def fnameSearch(request):
+    if not request.session.get('logged_in'):
+        return redirect('/login')
+    if request.method == "GET":
+        Searched = request.GET.get("fnameFilter")
+        info = Post.objects.filter(fname__contains=Searched)    
+        context={'details' : info.filter(postType=3)}
+        return render(request, 'tutorPage.html', context)
+
+def lnameSearch(request):
+    if not request.session.get('logged_in'):
+        return redirect('/login')
+    if request.method == "GET":
+        Searched = request.GET.get("lnameFilter")
+        info = Post.objects.filter(lname__contains=Searched)    
+        context={'details' : info.filter(postType=3)}
+        return render(request, 'tutorPage.html', context)
+
+def subjectsSearch(request):
+    if not request.session.get('logged_in'):
+        return redirect('/login')
+    if request.method == "GET":
+        Searched = request.GET.get("subjectsFilter")
+        info = Post.objects.filter(subjectsTutor__contains=Searched)    
+        context={'details' : info.filter(postType=3)}
+        return render(request, 'tutorPage.html', context)
+
+# def like(request):
+#     if request.method == "POST":
+#         user = User.objects.get(username = request.session.get("username"))
+#         post = Post.objects.get(id=request.POST.get('post_id'))
+#         if int(request.POST.get('action')) == 1:
+#             like = Like(user=user, post=post)
+#             like.save()
+#         else:
+#             like = Like.objects.get(user=user, post=post)
+#             like.delete
+        
+#         no_of_likes = Like.objects.filter(post=post).count()
+#         print(no_of_likes)
+#         return JsonResponse({'no_of_likes': no_of_likes})

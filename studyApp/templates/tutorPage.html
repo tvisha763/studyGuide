@@ -1,0 +1,74 @@
+{% extends 'auth/main.html' %}
+
+{% block title %}Tutoring Services{% endblock %}
+{% block content %}
+{% for message in messages %}
+<div class="alert mt-3 alert-warning alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+<div class="jumbotron-tutor jumbotron-fluid">
+  <center>
+  <div class="container">
+      <h2>Practices</h2>
+      <form action="{% url 'fnameSearch' %}" method="get">
+        <div class="input-group mb-3">
+          
+      <input type="text" name="fnameFilter" class="form-control" placeholder="filter tutor first name" aria-describedby="button-addon2">
+      <button class="btn btn-dark" type="submit" id="button-addon2">Filter</button>
+      <form action="{% url 'tutor' %}" style="display: inline-block;">
+        <button class="btn btn-light" type="submit" id="button-addon2">Clear Filter</button>
+      </form>
+    </div>
+  </form>
+  <form action="{% url 'lnameSearch' %}" method="get">
+    <div class="input-group mb-3">
+      <input type="text" name="lnameFilter" class="form-control" placeholder="filter tutor last name" aria-describedby="button-addon2">
+      <button class="btn btn-dark" type="submit" id="button-addon2">Filter</button>
+      <form action="{% url 'tutor' %}" style="display: inline-block;">
+        <button class="btn btn-light" type="submit" id="button-addon2">Clear Filter</button>
+      </form>
+    </div>
+  </form>
+  <form action="{% url 'subjectsSearch' %}" method="get">
+    <div class="input-group mb-3">
+      <input type="text" name="subjectsFilter" class="form-control" placeholder="filter subjects" aria-describedby="button-addon2">
+      <button class="btn btn-dark" type="submit" id="button-addon2">Filter</button>
+      <form action="{% url 'practice' %}" style="display: inline-block;">
+        <button class="btn btn-light" type="submit" id="button-addon2">Clear Filter</button>
+      </form>
+    </div>
+  </form>
+      
+    
+    
+    
+    
+  </div>
+</center>
+</div>
+  
+<div class="container">
+  <div class="row">
+    {% for detail in details %}
+    <div class="col-lg-4 col-md-6 col-12 mb-5">
+      <div class="card shadow-sm" style="width: 18rem;">
+        <div class="card-body text-center">
+          <h5 class="card-title">{{detail.fname}} {{detail.lname}}</h5>
+          <strong><p class="card-text">{{detail.subjectsTutor}}</p></strong>
+          <strong><p class="card-text">${{detail.rate}} per hour</p></strong>
+          <p class="card-text">{{ detail.description }}</p>
+          <a href="#" class="btn btn-primary">Contact</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+
+
+
+{% endblock %}

@@ -1,14 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-</head>
-<body>
-    <a href="{% url 'post' %}">post</a>
-    <a href="{% url 'sales' %}">sales</a>
-    <a href="{% url 'logout' %}">logout</a>
-</body>
-</html>
+{% extends 'auth/main.html' %}
+
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+{% for message in messages %}
+<div class="alert mt-3 alert-warning alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+<div class="container">
+    <div class="row pt-5">
+        <div class="col-12">
+
+    <h1>Your Sales</h1>
+    <!--  -->
+        {% for sale in sales %}
+            {% if sales != None %}
+                <div class="card shadow-sm" style="width: 18rem;">
+                    <div class="card-center">
+                        <img src="{{ sale.image.url }}" class="card-img-top" alt="...">
+                    </div>
+                    
+                    <div class="card-body">
+                    <div class="card-body">
+                      <h5 class="card-title">{{sale.materialName}}</h5>
+                      <strong><p class="card-text">${{sale.price}}</p></strong>
+                      <p class="card-text">{{sale.description}}</p>
+                      <a href="#" class="btn btn-danger">Delete</a>
+                <a href="#" class="btn btn-success">Sold</a>
+                <a href="#" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                  </div>
+                
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+</div>
+<div class="container">
+    <div class="row pt-5">
+        <div class="col-12">
+
+
+    <h1>Your Practices</h1>
+    
+        {% for prac in practice %}
+        
+                <div class="card shadow-sm" style="width: 18rem; margin: 20px;">
+                    <div class="card-body">
+                      <h5 class="card-title">{{prac.subjectPrac}}</h5>
+                      <p class="card-text">{{prac.description}}</p>
+                      <a href="{{prac.pracFile.url}}" class="btn btn-primary">View</a>
+                      <a href="#" class="btn btn-danger">Delete</a>
+                      <!-- -->
+                    </div>
+                </div>
+              
+                
+
+            
+        {% endfor %}
+    </div>
+</div>
+</div>
+<div class="container">
+    <div class="row pt-5">
+        <div class="col-12">
+    <h1>Your Tutoring Services</h1>
+  
+        {% for t in tutoringService %}
+        <div class="card shadow-sm" style="width: 18rem; display: inline-block;">
+            <div class="card-body">
+              <h5 class="card-title">{{t.fname}} {{t.lname}}</h5>
+              <p class="card-text">{{t.subjectsTutor}}</p>
+              <strong><p class="card-text">${{t.rate}} per hour</p></strong>
+              <p class="card-text">{{t.description}}</p>
+              <a href="#" class="btn btn-danger">Delete</a>
+            </div>
+          </div>
+        </div>
+    </div> 
+                
+
+            
+        {% endfor %}
+        </div>
+    </div>
+</div>
+</div>
+</div>
+{% endblock %}

@@ -1,6 +1,6 @@
 {% extends 'auth/main.html' %}
 
-{% block title %}Sales{% endblock %}
+{% block title %}Practices{% endblock %}
 {% block content %}
 {% for message in messages %}
 <div class="alert mt-3 alert-warning alert-dismissible fade show" role="alert">
@@ -8,20 +8,21 @@
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 {% endfor %}
-<div class="jumbotron-sale jumbotron-fluid">
+
+<div class="jumbotron-prac jumbotron-fluid">
   <center>
-
-
   <div class="container">
-      <h2>Sales</h2>
-      <form action="{% url 'materialSearch' %}" method="get">
+      <h2>Practices</h2>
+      <form action="{% url 'subjectSearch' %}" method="get">
         <div class="input-group mb-3">
           
-      <input type="text" name="materialFilter" class="form-control" placeholder="filter materials" aria-describedby="button-addon2">
+      <input type="text" name="subjectFilter" class="form-control" placeholder="filter subjects" aria-describedby="button-addon2">
       <button class="btn btn-dark" type="submit" id="button-addon2">Filter</button>
-      <form action="{% url 'sales' %}" style="display: inline-block;">
+      <form action="{% url 'practice' %}" style="display: inline-block;">
         <button class="btn btn-light" type="submit" id="button-addon2">Clear Filter</button>
       </form>
+      
+    
     </div>
     </form>
     
@@ -29,24 +30,27 @@
   </div>
 </center>
 </div>
+  
+  
+</div>
 
 <div class="container">
   <div class="row">
     {% for detail in details %}
     <div class="col-lg-4 col-md-6 col-12 mb-5">
       <div class="card shadow-sm" style="width: 18rem;">
-        <img src="{{ detail.image.url }}" class="card-img-top" alt="...">
         <div class="card-body text-center">
-          <h5 class="card-title">{{ detail.materialName }}</h5>
-          <strong><p class="card-text">${{detail.price}}</p></strong>
+          <h5 class="card-title">{{ detail.subjectPrac }}</h5>
           <p class="card-text">{{ detail.description }}</p>
-          <a href="#" class="btn btn-primary">View</a>
+          <a href="{{detail.pracFile.url}}" class="btn btn-primary">View</a>
         </div>
       </div>
     </div>
     {% endfor %}
   </div>
 </div>
+
+
 
 
 {% endblock %}
