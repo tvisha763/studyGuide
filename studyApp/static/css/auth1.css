@@ -6,7 +6,10 @@ body {
     background: -webkit-linear-gradient(to right, #8DB38B, #04724D);
     
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right bottom, #81c07f, #04724D)
+    background: linear-gradient(to right bottom, #81c07f, #04724D);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
     }
 
 label{

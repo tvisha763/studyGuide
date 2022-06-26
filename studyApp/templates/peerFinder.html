@@ -1,0 +1,63 @@
+{% extends 'auth/main.html' %}
+
+{% block title %}Peer Finder{% endblock %}
+{% block content %}
+{% for message in messages %}
+<div class="alert mt-3 alert-warning alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+
+<div class="jumbotron-peer jumbotron-fluid">
+    <center>
+    <div class="container">
+        <h2>Register</h2>
+        <form action="{% url 'peerRegister' %}" method="get">
+          <div class="input-group" style="margin-bottom: 15px;">
+            <span class="input-group-text">First and last name</span>
+            <input type="text" name="fname" class="form-control">
+            <input type="text" name="lname" class="form-control">
+          </div>
+        <div class="input-group">
+            <span class="input-group-text">Describe Yourself</span>
+            <textarea class="form-control" name="description"></textarea>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <input style="margin: 15px;" type="submit" value="Register" class="btn btn-dark">
+    </div>
+</form>
+
+        
+      </div>
+    
+      
+      
+      
+      
+    </div>
+  </center>
+  </div>
+  <center>
+  <div class="container">
+  <div class="row">
+    {% for detail in details %}
+    <div class="col-lg-4 col-md-6 col-12 mb-5">
+      <div class="card shadow-sm" style="width: 18rem;">
+        <div class="card-body text-center">
+          <h5 class="card-title">{{detail.fname}} {{detail.lname}}</h5>
+          <p class="card-text">{{ detail.description }}</p>
+          <form action="{% url 'peerCont' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{detail.id}}" name="peerId">
+            <button class="btn btn-primary">Contact</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+</center>
+{% endblock %}

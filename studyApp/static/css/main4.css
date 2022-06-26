@@ -101,3 +101,30 @@ footer {
   .jumbotron-tutor form {
     max-width: 350px;
   }
+
+  .sale-img{
+    min-height: 150px;
+    min-width: 300px;
+    max-width: 500px;
+    max-height: 500px;
+    margin-left: -20px;
+  }
+
+  .jumbotron-peer {
+    height: 450px;
+    background-image: url('../assets/peer.avif');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    color: #5a7958;
+    padding: 20px;
+  }
+  .jumbotron-peer h2 {
+    font-size: 80px;;
+    font-family: sans-serif;
+    margin: 50px;
+  }
+
+  .jumbotron-peer form {
+    max-width: 350px;
+  }

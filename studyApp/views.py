@@ -11,11 +11,12 @@ import urllib
 import os
 from datetime import datetime
 from django.conf import settings
-from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
 from django.template.loader import render_to_string
-from .models import User, Post, Like
+from .models import User, Post, Like, Friend
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.core.mail import send_mail, EmailMessage
+from django.conf import settings
 
 
 # Create your views here.
@@ -99,7 +100,7 @@ def login(request):
                 return redirect('dashboard')
             else:
                 messages.error(request, "Your password is incorrect.")
-                return redirect('login')
+                return render( request,'auth/login.html')
 
         else:
             messages.error(request, "An account with this email does not exist. Please sign up.")
@@ -209,7 +210,7 @@ def createPost(request):
 
 def salePage(request):
         if not request.session.get('logged_in'):
-            return redirect('/login')
+            return redirect('login')
         if request.method == "GET":
             info = Post.objects.filter(postType=1)
             context = {'details': info}
@@ -217,7 +218,7 @@ def salePage(request):
         
 def materialSearch(request):
     if not request.session.get('logged_in'):
-        return redirect('/login')
+        return redirect('login')
     if request.method == "GET":
         Searched = request.GET.get("materialFilter")
         info = Post.objects.filter(materialName__contains=Searched)    
@@ -226,7 +227,7 @@ def materialSearch(request):
 
 def pracPage(request):
         if not request.session.get('logged_in'):
-            return redirect('/login')
+            return redirect('login')
         if request.method == "GET":
             info = Post.objects.filter(postType=2)
             context = {'details': info}
@@ -234,7 +235,7 @@ def pracPage(request):
 
 def subjectSearch(request):
     if not request.session.get('logged_in'):
-        return redirect('/login')
+        return redirect('login')
     if request.method == "GET":
         Searched = request.GET.get("subjectFilter")
         info = Post.objects.filter(subjectPrac__contains=Searched)    
@@ -243,7 +244,7 @@ def subjectSearch(request):
 
 def tutorPage(request):
         if not request.session.get('logged_in'):
-            return redirect('/login')
+            return redirect('login')
         if request.method == "GET":
             info = Post.objects.filter(postType=3)
             context = {'details': info}
@@ -251,7 +252,7 @@ def tutorPage(request):
 
 def fnameSearch(request):
     if not request.session.get('logged_in'):
-        return redirect('/login')
+        return redirect('login')
     if request.method == "GET":
         Searched = request.GET.get("fnameFilter")
         info = Post.objects.filter(fname__contains=Searched)    
@@ -260,7 +261,7 @@ def fnameSearch(request):
 
 def lnameSearch(request):
     if not request.session.get('logged_in'):
-        return redirect('/login')
+        return redirect('login')
     if request.method == "GET":
         Searched = request.GET.get("lnameFilter")
         info = Post.objects.filter(lname__contains=Searched)    
@@ -269,12 +270,66 @@ def lnameSearch(request):
 
 def subjectsSearch(request):
     if not request.session.get('logged_in'):
-        return redirect('/login')
+        return redirect('login')
     if request.method == "GET":
         Searched = request.GET.get("subjectsFilter")
         info = Post.objects.filter(subjectsTutor__contains=Searched)    
         context={'details' : info.filter(postType=3)}
         return render(request, 'tutorPage.html', context)
+
+def showSale(request, post_id):
+    if not request.session.get('logged_in'):
+        return redirect('login')
+    else:
+        user = User.objects.get(username=request.session["username"])
+
+        post = Post.objects.get(id=post_id)
+        
+        context = {
+            'post' : post
+            }
+
+        return render(request, 'showSale.html', context)
+
+def deletePost(request, post_id):
+    if request.method == "GET":
+        post = Post.objects.get(id=post_id)
+        post.delete()
+        messages.error(request, "Your post has been deleted!")
+        return redirect("dashboard")
+
+def sold(request, post_id):
+    if request.method == "GET":
+        post = Post.objects.get(id=post_id)
+        post.delete()
+        messages.error(request, "Congratulations! You have contributed to your society and environment by selling your old materials!")
+        return redirect("dashboard")
+
+def peerRegister(request):
+    if request.method == "GET":
+        user = User.objects.get(username=request.session["username"])
+
+        fname = request.GET.get("fname")
+        lname = request.GET.get("lname")
+        description = request.GET.get("description")
+        inputs = [fname, lname, description]
+        for inp in inputs:
+            if inp==None or inp=='':
+                messages.error(request, "Please fill all the boxes to register.")
+                return redirect('peerFinder')
+            else:
+                peer = Friend(user=user, fname=fname, lname=lname, description=description)
+                peer.save()
+                return redirect('peerFinder')
+
+
+def peerFinder(request):
+    if not request.session.get('logged_in'):
+            return redirect('login')
+    if request.method == "GET":
+            info = Friend.objects.all()
+            context = {'details': info}
+            return render(request, 'peerFinder.html', context)
 
 # def like(request):
 #     if request.method == "POST":
@@ -290,3 +345,74 @@ def subjectsSearch(request):
 #         no_of_likes = Like.objects.filter(post=post).count()
 #         print(no_of_likes)
 #         return JsonResponse({'no_of_likes': no_of_likes})
+
+def buyMaterial(request):
+    if request.method == "POST":
+        postid = int(request.POST.get("postId"))
+        print(postid)
+        messages.error(request, "The seller will be notified of your interest.")
+        user = User.objects.get(username=request.session.get('username'))
+        print((postid))
+        post = Post.objects.get(id=postid)
+        subject = user.username + " is interested in your sale!"
+        body = "Hi " + str(post.user.username) + ", \n\n" + "    " + str(user.username) + " would like to buy your " + str(post.materialName) + ".\n\n" + "    " + str(user.username) + "'s contact details are: \n" + "    "  + "phone: " + str(user.phone) + "\n" + "    " + "email: " + str(user.email) + "\n\nCongratulations and good luck, \nStudy Guide Team"
+        sendto = post.user.email
+        send_mail(
+            subject,
+            body,
+            'studyguideteam.tmv@gmail.com',
+            [sendto],
+            fail_silently=False
+        )
+
+        
+        return redirect(f'/studyGuide/showSale/{post.id}/')
+
+def tutorContact(request):
+    if request.method == "POST":
+        
+        postid = request.POST.get("postId")
+        print(postid)
+        messages.error(request, "The tutor will be notified of your interest.")
+        user = User.objects.get(username=request.session.get('username'))
+        print(type(postid))
+        post = Post.objects.get(id=int(postid))
+        subject = user.username + " is interested in your tutoring service!"
+        body = "Hi " + str(post.user.username) + ", \n\n" + "    " + str(user.username) + " wants to learn more about your tutoring sevice!" + ".\n\n" + "    " + str(user.username) + "'s contact details are: \n" + "    "  + "phone: " + str(user.phone) + "\n" + "    " + "email: " + str(user.email) + "\n\nCongratulations and good luck, \nStudy Guide Team"
+        sendto = post.user.email
+        send_mail(
+            subject,
+            body,
+            'studyguideteam.tmv@gmail.com',
+            [sendto],
+            fail_silently=False
+        )
+
+        
+        return redirect('tutor')
+    else:
+        return render(request, 'tutor')
+
+def peerContact(request):
+    if request.method == "POST":
+        
+        peerid = request.POST.get('peerId')
+        peer = Friend.objects.get(id=int(peerid))
+
+        messages.error(request, peer.fname + " " + peer.lname + " " + "will be notified of your interest.")
+        user = User.objects.get(username=request.session.get('username'))
+        subject = user.username + " wants to be your friend!"
+        body = "Hi " + str(peer.user.username) + ", \n\n" + "    " + str(user.username) + " wants to be your friend! You are recieving this message because you registered for Peer Finder in Study Guide" + ".\n\n" + "    " + str(user.username) + "'s contact details are: \n" + "    "  + "phone: " + str(user.phone) + "\n" + "    " + "email: " + str(user.email) + "\n\nCongratulations and good luck, \nStudy Guide Team"
+        sendto = peer.user.email
+        send_mail(
+            subject,
+            body,
+            'studyguideteam.tmv@gmail.com',
+            [sendto],
+            fail_silently=False
+        )
+
+        
+        return redirect('peerFinder')
+    else:
+        return redirect('peerFinder')

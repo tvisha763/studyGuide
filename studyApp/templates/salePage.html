@@ -40,7 +40,7 @@
           <h5 class="card-title">{{ detail.materialName }}</h5>
           <strong><p class="card-text">${{detail.price}}</p></strong>
           <p class="card-text">{{ detail.description }}</p>
-          <a href="#" class="btn btn-primary">View</a>
+          <a href="{% url 'showSale' detail.id%}" class="btn btn-primary">View</a>
         </div>
       </div>
     </div>

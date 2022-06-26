@@ -11,7 +11,7 @@
 <div class="jumbotron-tutor jumbotron-fluid">
   <center>
   <div class="container">
-      <h2>Practices</h2>
+      <h2>Tutoring Services</h2>
       <form action="{% url 'fnameSearch' %}" method="get">
         <div class="input-group mb-3">
           
@@ -48,7 +48,7 @@
   </div>
 </center>
 </div>
-  
+<center>
 <div class="container">
   <div class="row">
     {% for detail in details %}
@@ -59,13 +59,19 @@
           <strong><p class="card-text">{{detail.subjectsTutor}}</p></strong>
           <strong><p class="card-text">${{detail.rate}} per hour</p></strong>
           <p class="card-text">{{ detail.description }}</p>
-          <a href="#" class="btn btn-primary">Contact</a>
+          <form method="post" action="{% url 'tutorCont' %}">
+            {% csrf_token %}
+						<input type="hidden" name="postId" value="{{ detail.id }}">
+            <button class="btn btn-primary">Contact</button>
+          </form>
+          
         </div>
       </div>
     </div>
     {% endfor %}
   </div>
 </div>
+</center>
 
 
 

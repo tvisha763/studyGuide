@@ -33,11 +33,11 @@ class Post(models.Model):
     lname =  models.CharField(max_length=100, blank=True, default='')
     subjectsTutor = models.CharField(max_length=1000, blank=True)
     rate = models.IntegerField(default=0, blank=True)
-    description = models.CharField(max_length=500, blank=True)
+    description = models.CharField(max_length=1000, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f'{self.postType} - {self.user.username}'
+        return f'{self.id}{self.postType} - {self.user.username}'
 
 class Like(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="likes")
@@ -46,3 +46,12 @@ class Like(models.Model):
 
     def __str__(self):
         return f'{self.post} - {self.user}'
+
+class Friend(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="peers")
+    fname =  models.CharField(max_length=100, blank=True, default='')
+    lname =  models.CharField(max_length=100, blank=True, default='')
+    description = models.CharField(max_length=1000, blank=True)
+
+    def __str__(self):
+        return f'{self.fname} - {self.user}'

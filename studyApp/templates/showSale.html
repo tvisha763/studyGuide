@@ -1,0 +1,52 @@
+{% extends 'auth/main.html' %}
+
+{% block title %}View Sale{% endblock %}
+{% block content %}
+{% for message in messages %}
+<div class="alert mt-3 alert-warning alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+<center>
+<div class="container my-5">
+	<div class="row justify-content-center">
+		<div class="card col-12 shadow-sm" style="padding: 20px;">
+			<div class="card-body container">
+				<div class="row justify-content-center">
+					<div class="col-6 card-title text-center">
+						<h3>{{ post.materialName }}</h3>
+					</div>
+					<div class="col-6"></div>
+				</div>
+				<div class="row justify-content-center mb-3">
+					<img class="col-md-6 sale-img" src="{{ post.image.url }}"></img>
+					<div class="col-md-6 fs-5">
+						<div class="container" style="margin-right: 200px;">
+							<div class="row text-center">
+                                <center>                                
+                                    <div class="col-12 text-center mb-4">
+                                    <center>
+									<span>Listing Price: <span class="text-success">${{ post.price }}</span></span>
+								</div>
+								<div class="col-12 text-center mb-4">
+								
+									<form method="POST" action="{% url 'buy' %}">
+										{% csrf_token %}
+										<input type="hidden" name="postId" value="{{ post.id }}">
+										<input type="submit" value="Want to Buy" class="btn btn-dark">
+									</form>
+								</div>
+								<div class="col-12" style="font-size: 0.95em;">
+									<h5>Description</h5>
+									<p>{{ post.description }}</p>
+								</div>
+                            </center>
+							</div>
+                        </center>
+
+						</div>
+					</div>
+				</div>
+            </center>
+{% endblock %}

@@ -18,4 +18,12 @@ urlpatterns = [
     path('fnameSearch', views.fnameSearch, name='fnameSearch'),
     path('lnameSearch', views.lnameSearch, name='lnameSearch'),
     path('subjectsSearch', views.subjectsSearch, name='subjectsSearch'),
+    path('showSale/<int:post_id>/', views.showSale, name="showSale"),
+    path('deletePost/<int:post_id>/', views.deletePost, name="deletePost"),
+    path('sold/<int:post_id>/', views.sold, name="sold"),
+    path('peerRegister', views.peerRegister, name='peerRegister'),
+    path('peerFinder', views.peerFinder, name='peerFinder'),
+    path('buy', views.buyMaterial, name='buy'),
+    path('tutorCont', views.tutorContact, name='tutorCont'),
+    path('peerCont', views.peerContact, name='peerCont'),
 ]

@@ -26,10 +26,10 @@
                       <h5 class="card-title">{{sale.materialName}}</h5>
                       <strong><p class="card-text">${{sale.price}}</p></strong>
                       <p class="card-text">{{sale.description}}</p>
-                      <a href="#" class="btn btn-danger">Delete</a>
-                <a href="#" class="btn btn-success">Sold</a>
-                <a href="#" class="btn btn-primary">View</a>
-                        </div>
+                      <a href="{% url 'deletePost' sale.id %}" class="btn btn-danger">Delete</a>
+                    <a href="{% url 'sold' sale.id %}" class="btn btn-success">Sold</a>
+                    <a href="{% url 'showSale' sale.id%}" class="btn btn-primary">View</a>                        
+                </div>
                     </div>
                   </div>
                 
@@ -52,7 +52,7 @@
                       <h5 class="card-title">{{prac.subjectPrac}}</h5>
                       <p class="card-text">{{prac.description}}</p>
                       <a href="{{prac.pracFile.url}}" class="btn btn-primary">View</a>
-                      <a href="#" class="btn btn-danger">Delete</a>
+                      <a href="{% url 'deletePost' prac.id %}" class="btn btn-danger">Delete</a>
                       <!-- -->
                     </div>
                 </div>
@@ -67,24 +67,24 @@
 <div class="container">
     <div class="row pt-5">
         <div class="col-12">
-    <h1>Your Tutoring Services</h1>
+            <h1>Your Tutoring Services</h1>
   
-        {% for t in tutoringService %}
-        <div class="card shadow-sm" style="width: 18rem; display: inline-block;">
-            <div class="card-body">
-              <h5 class="card-title">{{t.fname}} {{t.lname}}</h5>
-              <p class="card-text">{{t.subjectsTutor}}</p>
-              <strong><p class="card-text">${{t.rate}} per hour</p></strong>
-              <p class="card-text">{{t.description}}</p>
-              <a href="#" class="btn btn-danger">Delete</a>
+            {% for t in tutoringService %}
+            <div class="card shadow-sm" style="width: 18rem; display: inline-block;">
+                <div class="card-body">
+                  <h5 class="card-title">{{t.fname}} {{t.lname}}</h5>
+                  <p class="card-text">{{t.subjectsTutor}}</p>
+                  <strong><p class="card-text">${{t.rate}} per hour</p></strong>
+                  <p class="card-text">{{t.description}}</p>
+                  <a href="{% url 'deletePost' t.id %}" class="btn btn-danger">Delete</a>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-    </div> 
+        </div> 
+                    
+    
                 
-
-            
-        {% endfor %}
+            {% endfor %}
         </div>
     </div>
 </div>
